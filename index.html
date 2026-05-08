@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhero Database | Discover Your Heroes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar is-dark is-fixed-top" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <i class="fas fa-bolt"></i>
+                <span class="logo-text">HEROVERSE</span>
+            </a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <button id="favoritesBtn" class="button is-danger is-outlined">
+                        <span class="icon"><i class="fas fa-heart"></i></span>
+                        <span>Favorites</span>
+                        <span id="favoritesCount" class="tag is-rounded ml-2">0</span>
+                    </button>
+                    <button id="compareBtn" class="button is-info is-outlined">
+                        <span class="icon"><i class="fas fa-balance-scale"></i></span>
+                        <span>Compare</span>
+                        <span id="compareCount" class="tag is-rounded ml-2">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner Section -->
+    <section class="hero-banner">
+        <div class="hero-banner-content">
+            <h1 class="hero-banner-title">
+                <span class="title-line">Discover</span>
+                <span class="title-line accent">563+ Heroes & Villains</span>
+            </h1>
+            <p class="hero-banner-subtitle">Explore the multiverse. Compare powers. Find your champion.</p>
+            <div class="hero-banner-stats">
+                <div class="stat-item">
+                    <i class="fas fa-mask"></i>
+                    <span class="stat-number">563</span>
+                    <span class="stat-label">Characters</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-building"></i>
+                    <span class="stat-number">25+</span>
+                    <span class="stat-label">Publishers</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-fist-raised"></i>
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Power Stats</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-banner-decoration">
+            <div class="floating-icon icon-1"><i class="fas fa-star"></i></div>
+            <div class="floating-icon icon-2"><i class="fas fa-bolt"></i></div>
+            <div class="floating-icon icon-3"><i class="fas fa-shield-alt"></i></div>
+            <div class="floating-icon icon-4"><i class="fas fa-fire"></i></div>
+        </div>
+    </section>
+
+    <main class="section main-content">
+        <div class="container">
+            <!-- Filters Section -->
+            <div class="box filters-box">
+                <div class="columns is-multiline is-vcentered">
+                    <div class="column is-4">
+                        <div class="field">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input" type="text" id="searchInput" placeholder="Search heroes...">
+                                <span class="icon is-left"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <div class="field">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="publisherFilter">
+                                        <option value="">All Publishers</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <div class="field">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="alignmentFilter">
+                                        <option value="">All Alignments</option>
+                                        <option value="good">Good</option>
+                                        <option value="bad">Bad</option>
+                                        <option value="neutral">Neutral</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <div class="field">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="genderFilter">
+                                        <option value="">All Genders</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <button id="clearFilters" class="button is-light is-fullwidth">
+                            <span class="icon"><i class="fas fa-times"></i></span>
+                            <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="columns is-vcentered">
+                    <div class="column is-narrow">
+                        <div class="buttons has-addons">
+                            <button id="gridViewBtn" class="button is-small is-selected is-info" title="Grid View">
+                                <span class="icon"><i class="fas fa-th"></i></span>
+                            </button>
+                            <button id="tableViewBtn" class="button is-small" title="Table View">
+                                <span class="icon"><i class="fas fa-list"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <span id="resultsCount" class="has-text-grey">Loading...</span>
+                    </div>
+                    <div class="column is-narrow">
+                        <label class="checkbox">
+                            <input type="checkbox" id="showFavoritesOnly">
+                            Show favorites only
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="has-text-centered py-6">
+                <div class="loading-hero">
+                    <i class="fas fa-mask loading-icon"></i>
+                </div>
+                <p class="mt-4">Assembling heroes...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="notification is-danger is-hidden">
+                <div class="is-flex is-align-items-center">
+                    <span class="icon is-large"><i class="fas fa-exclamation-triangle fa-2x"></i></span>
+                    <div class="ml-4">
+                        <p class="is-size-5 has-text-weight-bold">Oops! Something went wrong</p>
+                        <p>Failed to load heroes. The multiverse might be experiencing issues.</p>
+                    </div>
+                </div>
+                <button id="retryBtn" class="button is-light mt-4">
+                    <span class="icon"><i class="fas fa-redo"></i></span>
+                    <span>Try Again</span>
+                </button>
+            </div>
+
+            <!-- Heroes Grid View -->
+            <div id="heroesGrid" class="columns is-multiline is-hidden heroes-grid"></div>
+
+            <!-- Heroes Table View -->
+            <div id="heroesTable" class="table-container is-hidden">
+                <table class="table is-fullwidth is-striped is-hoverable">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="name">Name <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="publisher">Publisher <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="alignment">Alignment <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="intelligence">INT <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="strength">STR <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="speed">SPD <i class="fas fa-sort"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="heroesTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav id="pagination" class="pagination is-centered is-hidden" role="navigation">
+                <button id="prevPage" class="pagination-previous" disabled>
+                    <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                    <span>Previous</span>
+                </button>
+                <button id="nextPage" class="pagination-next">
+                    <span>Next</span>
+                    <span class="icon"><i class="fas fa-chevron-right"></i></span>
+                </button>
+                <ul class="pagination-list">
+                    <li><span id="pageInfo" class="pagination-link is-current">Page 1 of 1</span></li>
+                </ul>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-bolt"></i> HEROVERSE</h3>
+                    <p>Your ultimate superhero encyclopedia</p>
+                </div>
+                <div class="footer-links">
+                    <p>Powered by <a href="https://akabab.github.io/superhero-api/" target="_blank">Superhero API</a></p>
+                    <p class="footer-note">Made with <i class="fas fa-heart"></i> for comic fans everywhere</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hero Details Modal -->
+    <div id="heroModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card modal-hero-details">
+            <header class="modal-card-head">
+                <p class="modal-card-title" id="heroModalTitle">Hero Details</p>
+                <button class="delete modal-close-btn" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div id="heroDetails"></div>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="modalFavoriteBtn" class="button is-danger">
+                    <span class="icon"><i class="fas fa-heart"></i></span>
+                    <span>Add to Favorites</span>
+                </button>
+                <button id="modalCompareBtn" class="button is-info">
+                    <span class="icon"><i class="fas fa-balance-scale"></i></span>
+                    <span>Add to Compare</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div id="compareModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card modal-compare">
+            <header class="modal-card-head">
+                <p class="modal-card-title"><i class="fas fa-balance-scale mr-2"></i> Battle Arena</p>
+                <button class="delete modal-close-btn" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div id="compareContent"></div>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="clearCompareBtn" class="button is-warning">
+                    <span class="icon"><i class="fas fa-trash"></i></span>
+                    <span>Clear Arena</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div id="favoritesModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title"><i class="fas fa-heart mr-2"></i> Your Hero Squad</p>
+                <button class="delete modal-close-btn" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div id="favoritesContent"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/heroes.js"></script>
+    <script src="js/details.js"></script>
+    <script src="js/compare.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
