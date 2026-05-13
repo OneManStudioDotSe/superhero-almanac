@@ -121,7 +121,7 @@ const Compare = (function() {
             container.innerHTML = `
                 <div class="notification is-info is-light">
                     <p>No heroes selected for comparison.</p>
-                    <p class="mt-2">Click the <i class="fas fa-balance-scale"></i> icon on hero cards to add them for comparison.</p>
+                    <p class="mt-2">Click the ${Icons.compare} icon on hero cards to add them for comparison.</p>
                 </div>
             `;
             return;
@@ -153,7 +153,7 @@ const Compare = (function() {
                             <p class="has-text-weight-bold mt-2">${hero.name}</p>
                             <p class="is-size-7 has-text-grey">${hero.biography?.publisher || 'Unknown'}</p>
                             <button class="button is-small is-danger is-light mt-2 remove-compare-btn" data-hero-id="${hero.id}">
-                                <span class="icon is-small"><i class="fas fa-times"></i></span>
+                                <span class="icon is-small">${Icons.times}</span>
                             </button>
                         </div>
                     `).join('')}

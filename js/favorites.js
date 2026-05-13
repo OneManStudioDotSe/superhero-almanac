@@ -73,7 +73,7 @@ const Favorites = (function() {
             container.innerHTML = `
                 <div class="notification is-info is-light">
                     <p>You haven't added any favorites yet.</p>
-                    <p class="mt-2">Click the <i class="fas fa-heart"></i> icon on a hero card to add them to your favorites.</p>
+                    <p class="mt-2">Click the ${Icons.heart} icon on a hero card to add them to your favorites.</p>
                 </div>
             `;
             return;
@@ -98,10 +98,10 @@ const Favorites = (function() {
                             </div>
                             <footer class="card-footer">
                                 <a href="#" class="card-footer-item details-btn" data-hero-id="${hero.id}">
-                                    <span class="icon is-small"><i class="fas fa-info-circle"></i></span>
+                                    <span class="icon is-small">${Icons.info}</span>
                                 </a>
                                 <a href="#" class="card-footer-item remove-favorite-btn has-text-danger" data-hero-id="${hero.id}">
-                                    <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                                    <span class="icon is-small">${Icons.trash}</span>
                                 </a>
                             </footer>
                         </div>

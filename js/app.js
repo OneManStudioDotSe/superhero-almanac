@@ -1,5 +1,6 @@
 const App = (function() {
     async function init() {
+        Theme.init();
         Favorites.load();
         Compare.load();
         HeroesRenderer.loadViewPreference();
@@ -22,6 +23,8 @@ const App = (function() {
 
             HeroesRenderer.setView(HeroesRenderer.getView());
             HeroesRenderer.render(Filters.getFilteredHeroes());
+
+            Spotlight.render(heroes);
         } catch (error) {
             console.error('Failed to load heroes:', error);
             showLoading(false);
@@ -31,11 +34,8 @@ const App = (function() {
 
     function showLoading(show) {
         const spinner = document.getElementById('loadingSpinner');
-        if (show) {
-            spinner.classList.remove('is-hidden');
-        } else {
-            spinner.classList.add('is-hidden');
-        }
+        if (show) spinner.classList.remove('is-hidden');
+        else      spinner.classList.add('is-hidden');
     }
 
     function showError() {
@@ -56,43 +56,48 @@ const App = (function() {
     }
 
     function setupEventListeners() {
-        // Search input
+        // Theme toggle
+        document.getElementById('themeToggleBtn').addEventListener('click', Theme.toggle);
+
+        // Teams & Publishers buttons
+        document.getElementById('teamsBtn').addEventListener('click', Teams.openModal);
+        document.getElementById('publishersBtn').addEventListener('click', Publishers.openModal);
+
+        // Clear team filter chip
+        document.getElementById('clearTeamFilterBtn').addEventListener('click', Teams.clearFilter);
+
+        // Search input (debounced)
         const searchInput = document.getElementById('searchInput');
         let searchTimeout;
         searchInput.addEventListener('input', () => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
-                const filtered = Filters.applyFilters();
-                HeroesRenderer.render(filtered);
+                HeroesRenderer.render(Filters.applyFilters());
             }, 300);
         });
 
         // Filter dropdowns
         ['publisherFilter', 'alignmentFilter', 'genderFilter'].forEach(id => {
             document.getElementById(id).addEventListener('change', () => {
-                const filtered = Filters.applyFilters();
-                HeroesRenderer.render(filtered);
+                HeroesRenderer.render(Filters.applyFilters());
             });
         });
 
         // Show favorites only checkbox
         document.getElementById('showFavoritesOnly').addEventListener('change', () => {
-            const filtered = Filters.applyFilters();
-            HeroesRenderer.render(filtered);
+            HeroesRenderer.render(Filters.applyFilters());
         });
 
-        // Clear filters button
+        // Clear filters
         document.getElementById('clearFilters').addEventListener('click', () => {
-            const filtered = Filters.clearFilters();
-            HeroesRenderer.render(filtered);
+            HeroesRenderer.render(Filters.clearFilters());
         });
 
-        // View toggle buttons
+        // View toggle
         document.getElementById('gridViewBtn').addEventListener('click', () => {
             HeroesRenderer.setView('grid');
             HeroesRenderer.render(Filters.getFilteredHeroes());
         });
-
         document.getElementById('tableViewBtn').addEventListener('click', () => {
             HeroesRenderer.setView('table');
             HeroesRenderer.render(Filters.getFilteredHeroes());
@@ -104,7 +109,6 @@ const App = (function() {
             HeroesRenderer.render(Filters.getFilteredHeroes());
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
         document.getElementById('nextPage').addEventListener('click', () => {
             HeroesRenderer.nextPage();
             HeroesRenderer.render(Filters.getFilteredHeroes());
@@ -122,7 +126,7 @@ const App = (function() {
         // Retry button
         document.getElementById('retryBtn').addEventListener('click', loadHeroes);
 
-        // Header buttons
+        // Navbar buttons
         document.getElementById('favoritesBtn').addEventListener('click', Favorites.openModal);
         document.getElementById('compareBtn').addEventListener('click', Compare.openModal);
 
@@ -155,22 +159,20 @@ const App = (function() {
             }
         });
 
-        // Clear compare button
+        // Clear compare
         document.getElementById('clearCompareBtn').addEventListener('click', () => {
             Compare.clear();
             Compare.renderCompareModal();
             HeroesRenderer.render(Filters.getFilteredHeroes());
         });
 
-        // Delegated event listeners for dynamic content
+        // Delegated events for dynamic content
         document.addEventListener('click', handleDelegatedClicks);
 
-        // Escape key to close modals
-        document.addEventListener('keydown', (e) => {
+        // Escape key closes modals
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
-                document.querySelectorAll('.modal').forEach(modal => {
-                    modal.classList.remove('is-active');
-                });
+                document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('is-active'));
                 document.documentElement.classList.remove('is-clipped');
             }
         });
@@ -182,7 +184,6 @@ const App = (function() {
 
         const heroId = parseInt(target.dataset.heroId);
 
-        // Favorite button clicked
         if (target.classList.contains('favorite-btn')) {
             e.preventDefault();
             Favorites.toggle(heroId);
@@ -190,7 +191,6 @@ const App = (function() {
             return;
         }
 
-        // Compare button clicked
         if (target.classList.contains('compare-btn')) {
             e.preventDefault();
             Compare.toggle(heroId);
@@ -198,16 +198,13 @@ const App = (function() {
             return;
         }
 
-        // Details button clicked
         if (target.classList.contains('details-btn')) {
             e.preventDefault();
-            // Close favorites modal if open
             document.getElementById('favoritesModal').classList.remove('is-active');
             HeroDetails.openModal(heroId);
             return;
         }
 
-        // Remove from favorites in favorites modal
         if (target.classList.contains('remove-favorite-btn')) {
             e.preventDefault();
             Favorites.remove(heroId);
@@ -216,7 +213,6 @@ const App = (function() {
             return;
         }
 
-        // Remove from compare in compare modal
         if (target.classList.contains('remove-compare-btn')) {
             e.preventDefault();
             Compare.remove(heroId);
@@ -225,17 +221,19 @@ const App = (function() {
             return;
         }
 
-        // Hero card or row clicked (open details)
-        if (target.classList.contains('hero-card') || target.classList.contains('hero-row') || target.classList.contains('hero-name-link')) {
+        // Click on card body / flip container / table row opens detail modal
+        if (
+            target.classList.contains('hero-flip-container') ||
+            target.classList.contains('hero-card') ||
+            target.classList.contains('hero-row') ||
+            target.classList.contains('hero-name-link')
+        ) {
             e.preventDefault();
             HeroDetails.openModal(heroId);
         }
     }
 
-    return {
-        init
-    };
+    return { init };
 })();
 
-// Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', App.init);
