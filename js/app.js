@@ -107,12 +107,12 @@ const App = (function() {
         document.getElementById('prevPage').addEventListener('click', () => {
             HeroesRenderer.prevPage();
             HeroesRenderer.render(Filters.getFilteredHeroes());
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
         });
         document.getElementById('nextPage').addEventListener('click', () => {
             HeroesRenderer.nextPage();
             HeroesRenderer.render(Filters.getFilteredHeroes());
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
         });
 
         // Table sorting
@@ -223,7 +223,7 @@ const App = (function() {
 
         // Click on card body / flip container / table row opens detail modal
         if (
-            target.classList.contains('hero-flip-container') ||
+            target.classList.contains('hero-card-wrap') ||
             target.classList.contains('hero-card') ||
             target.classList.contains('hero-row') ||
             target.classList.contains('hero-name-link')

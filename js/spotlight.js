@@ -65,7 +65,7 @@ const Spotlight = (function() {
                         <img class="spotlight-img"
                              src="${hero.images?.lg || hero.images?.md || ''}"
                              alt="${hero.name}"
-                             onerror="this.src='https://via.placeholder.com/400x500?text=No+Image'">
+                             onerror="this.src='${Icons.placeholder}'">
                     </div>
                 </div>
             </div>

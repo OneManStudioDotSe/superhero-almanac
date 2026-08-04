@@ -27,3 +27,14 @@ const Icons = {
     info:         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`,
     skull:        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zM9 17v-1h2v1H9zm4 0h-2v-1h2v1zm-1-3c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>`,
 };
+
+// Local fallback image for hero photos that fail to load (avoids depending on an external placeholder service).
+Icons.placeholder = 'data:image/svg+xml,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 340">'
+    + '<rect width="300" height="340" fill="#1e1e38"/>'
+    + '<g transform="translate(110,110) scale(3.3)" fill="#454569">'
+    + '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>'
+    + '</g>'
+    + '<text x="150" y="230" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#6b6b8f">No Image</text>'
+    + '</svg>'
+);

@@ -124,7 +124,7 @@ const HeroDetails = (function() {
                     <figure class="image hero-detail-portrait">
                         <img src="${hero.images?.lg || hero.images?.md || ''}"
                              alt="${hero.name}"
-                             onerror="this.src='https://via.placeholder.com/400x500?text=No+Image'">
+                             onerror="this.src='${Icons.placeholder}'">
                     </figure>
                     <div class="has-text-centered mt-3 mb-3">
                         <span class="tag is-medium ${getAlignmentClass(alignment)}">${alignment}</span>

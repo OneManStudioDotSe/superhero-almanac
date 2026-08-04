@@ -24,66 +24,54 @@ const HeroesRenderer = (function() {
 
         return `
             <div class="column is-3-desktop is-4-tablet is-6-mobile">
-                <div class="hero-flip-container" data-hero-id="${hero.id}">
-                    <div class="hero-flip-inner">
-                        <!-- FRONT -->
-                        <div class="card hero-card hero-flip-front">
-                            <div class="card-image">
-                                <figure class="image hero-image">
-                                    <img src="${hero.images?.md || hero.images?.sm || ''}"
-                                         alt="${hero.name}"
-                                         loading="lazy"
-                                         onerror="this.src='https://via.placeholder.com/300x340?text=No+Image'">
-                                </figure>
-                                <span class="tag alignment-tag ${getAlignmentClass(alignment)}">${alignment}</span>
-                            </div>
-                            <div class="card-content">
-                                <p class="title is-5 hero-name">${hero.name}</p>
-                                <p class="subtitle is-7 has-text-grey">${publisher}</p>
-                            </div>
-                            <footer class="card-footer">
-                                <a href="#" class="card-footer-item favorite-btn ${isFavorite ? 'is-active' : ''}"
-                                   data-hero-id="${hero.id}" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
-                                    <span class="icon">${Icons.heart}</span>
-                                </a>
-                                <a href="#" class="card-footer-item compare-btn ${isInCompare ? 'is-active' : ''}"
-                                   data-hero-id="${hero.id}" title="${isInCompare ? 'Remove from compare' : 'Add to compare'}">
-                                    <span class="icon">${Icons.compare}</span>
-                                </a>
-                                <a href="#" class="card-footer-item details-btn" data-hero-id="${hero.id}" title="View details">
-                                    <span class="icon">${Icons.info}</span>
-                                </a>
-                            </footer>
+                <div class="hero-card-wrap" data-hero-id="${hero.id}">
+                    <div class="card hero-card">
+                        <div class="card-image">
+                            <figure class="image hero-image">
+                                <img src="${hero.images?.md || hero.images?.sm || ''}"
+                                     alt="${hero.name}"
+                                     loading="lazy"
+                                     onerror="this.src='${Icons.placeholder}'">
+                            </figure>
+                            <span class="tag alignment-tag ${getAlignmentClass(alignment)}">${alignment}</span>
                         </div>
-                        <!-- BACK -->
-                        <div class="card hero-flip-back">
-                            <div class="hero-flip-back-content">
-                                <div class="flip-hero-avatar">
-                                    <img src="${hero.images?.sm || hero.images?.xs || ''}"
-                                         alt="${hero.name}"
-                                         onerror="this.style.display='none'">
-                                </div>
-                                <h4 class="flip-hero-name">${hero.name}</h4>
-                                <p class="flip-hero-publisher">${publisher}</p>
-                                <div class="flip-stats">
-                                    ${statEntries.length > 0
-                                        ? statEntries.slice(0, 6).map(([key, val]) => `
-                                            <div class="flip-stat-row">
-                                                <span class="flip-stat-label">${key.slice(0, 3).toUpperCase()}</span>
-                                                <div class="flip-stat-track">
-                                                    <div class="flip-stat-fill" style="width:${val}%"></div>
-                                                </div>
-                                                <span class="flip-stat-num">${val}</span>
+                        <div class="card-content">
+                            <p class="title is-5 hero-name">${hero.name}</p>
+                            <p class="subtitle is-7 has-text-grey">${publisher}</p>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item favorite-btn ${isFavorite ? 'is-active' : ''}"
+                               data-hero-id="${hero.id}" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                <span class="icon">${Icons.heart}</span>
+                            </a>
+                            <a href="#" class="card-footer-item compare-btn ${isInCompare ? 'is-active' : ''}"
+                               data-hero-id="${hero.id}" title="${isInCompare ? 'Remove from compare' : 'Add to compare'}">
+                                <span class="icon">${Icons.compare}</span>
+                            </a>
+                            <a href="#" class="card-footer-item details-btn" data-hero-id="${hero.id}" title="View details">
+                                <span class="icon">${Icons.info}</span>
+                            </a>
+                        </footer>
+                        <!-- Slide-up quickview -->
+                        <div class="hero-quickview">
+                            <div class="quickview-stats">
+                                ${statEntries.length > 0
+                                    ? statEntries.slice(0, 6).map(([key, val]) => `
+                                        <div class="quickview-stat-row">
+                                            <span class="quickview-stat-label">${key.slice(0, 3).toUpperCase()}</span>
+                                            <div class="quickview-stat-track">
+                                                <div class="quickview-stat-fill" style="width:${val}%"></div>
                                             </div>
-                                        `).join('')
-                                        : '<p class="flip-no-stats">No stats available</p>'
-                                    }
-                                </div>
-                                <a href="#" class="button flip-view-btn details-btn" data-hero-id="${hero.id}">
-                                    <span class="icon">${Icons.eye}</span>
-                                    <span>View Details</span>
-                                </a>
+                                            <span class="quickview-stat-num">${val}</span>
+                                        </div>
+                                    `).join('')
+                                    : '<p class="quickview-no-stats">No stats available</p>'
+                                }
                             </div>
+                            <a href="#" class="button quickview-details-btn details-btn" data-hero-id="${hero.id}">
+                                <span>View Details</span>
+                                <span class="icon is-small">${Icons.chevronRight}</span>
+                            </a>
                         </div>
                     </div>
                 </div>
